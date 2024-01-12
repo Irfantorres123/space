@@ -58,7 +58,7 @@ const sketch = (p5: P5CanvasInstance<any>) => {
   };
   p5.mouseDragged = () => {
     if (!clicked) return;
-    vector = new Vector(p5.mouseX - side / 2, p5.mouseY - side / 2);
+    vector = new Vector(p5.mouseX - side / 2, (side-p5.mouseY) - side / 2);
     onChange(vector.divide(side / 2));
   };
   p5.mousePressed = () => {
