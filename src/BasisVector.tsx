@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Vector } from "./types/Vector.ts";
 import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
 
+function disableScrolling(){
+    var x=window.scrollX;
+    var y=window.scrollY;
+    window.onscroll=function(){window.scrollTo(x, y);};
+}
+
+function enableScrolling(){
+    window.onscroll=function(){};
+}
+
 const sketch = (p5: P5CanvasInstance<any>) => {
   let vector: Vector = new Vector(0, 0);
   let side = 200;
@@ -40,6 +50,10 @@ const sketch = (p5: P5CanvasInstance<any>) => {
     p5.translate(side / 2, side / 2);
     checkOverBox();
     vector.draw(p5);
+    if (overBox || clicked) {
+      p5.fill(255, 100);
+      p5.stroke(255, 100);
+    }
   };
   p5.mouseDragged = () => {
     if (!clicked) return;
@@ -57,7 +71,11 @@ const sketch = (p5: P5CanvasInstance<any>) => {
 
 const BasisVector = (props: any) => {
   return (
-    <div>
+    <div className="basis-vector">
+        <div className='vector-input'>
+            <input type="number" value={props.vector.x} onChange={(e)=>props.onChange(new Vector( parseFloat(e.target.value),props.vector.y))}/>
+            <input type="number" value={props.vector.y} onChange={(e)=>props.onChange(new Vector( props.vector.x,parseFloat(e.target.value)))}/>
+        </div>
       <ReactP5Wrapper
         sketch={sketch}
         onChange={props.onChange}
