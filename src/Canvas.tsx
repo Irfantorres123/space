@@ -90,6 +90,8 @@ function sketch(p5: P5CanvasInstance<MatrixSketchProps>) {
     p5.stroke(255);
     p5.strokeWeight(lineWidth);
     p5.translate(p5.width / 2, p5.height / 2);
+    p5.scale(1, -1);
+
     drawGrid();
     drawVectors();
   };

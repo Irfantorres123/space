@@ -48,6 +48,7 @@ const sketch = (p5: P5CanvasInstance<any>) => {
     p5.fill(255);
     p5.stroke(255);
     p5.translate(side / 2, side / 2);
+    p5.scale(1, -1);
     checkOverBox();
     vector.draw(p5);
     if (overBox || clicked) {
