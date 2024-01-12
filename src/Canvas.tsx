@@ -19,7 +19,6 @@ function radiansToDegrees(radians: number) {
 }
 
 function sketch(p5: P5CanvasInstance<MatrixSketchProps>) {
-  Drawable.setP5(p5);
   const spacing = 40;
   const lineWidth = 1;
   const width = 800;
@@ -34,7 +33,7 @@ function sketch(p5: P5CanvasInstance<MatrixSketchProps>) {
     let vector = new Vector(0,0);
     lines.push(Line.fromPointAndAngle(new Point(vector.x,vector.y),radiansToDegrees(basisx.angle), height));
     vector=vector.add(scaledY);
-    let maxVectors=10000;
+    let maxVectors=1000;
     let count=0;
     while(count<maxVectors){
       lines.push(Line.fromPointAndAngle(new Point(vector.x,vector.y),radiansToDegrees(basisx.angle), height,127));
@@ -57,13 +56,13 @@ function sketch(p5: P5CanvasInstance<MatrixSketchProps>) {
 
   const drawGrid = () => {
     for (let i in lines) {
-      lines[i].draw();
+      lines[i].draw(p5);
     }
   };
 
   const drawVectors = () => {
     for (let i in vectors) {
-      vectors[i].draw();
+      vectors[i].draw(p5);
     }
   };
 
@@ -80,8 +79,8 @@ function sketch(p5: P5CanvasInstance<MatrixSketchProps>) {
     lines = []
     addGridLines();
     vectors = props.vectors || [];
-    vectors =vectors.map((vector:Vector)=>vector.multiply(spacing));
-    console.log(vectors);
+    vectors =vectors.map((vector:Vector)=>vector.transform(matrix.scale(spacing)));
+    
   };
 
 
@@ -112,17 +111,19 @@ const Canvas = (props: any) => {
             [basisx.y,basisy.y]]
           )
         }
-        //vectors={[new Vector(1, 1)]}
+        vectors={[new Vector(1, 1)]}
       /> 
       <div className="controls">
         <div className="basis-vectors">
           <BasisVector 
             vector={basisx}
             onChange={(vector:Vector)=>setBasisx(vector)}
+            id={1}
           />
           <BasisVector
            vector={basisy}
            onChange={(vector:Vector)=>setBasisy(vector)}
+            id={2}
            />
 
         </div>

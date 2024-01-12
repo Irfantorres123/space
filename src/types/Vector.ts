@@ -1,11 +1,13 @@
+import { P5CanvasInstance } from "@p5-wrapper/react";
 import { Drawable } from "./Drawable.ts";
 import { Matrix } from "./Matrix.ts";
 
 class Vector extends Drawable{
-    constructor(public x: number, public y: number) {
-        super();
+    constructor(public x: number, public y: number,public color:string="#0ff") {
+      super();
       this.x = x;
       this.y = y;
+      this.color=color;
     }
     static fromAngle(angleInRadians: number) {
       return new Vector(Math.cos(angleInRadians), Math.sin(angleInRadians));
@@ -45,12 +47,13 @@ class Vector extends Drawable{
       return this.x * vector.y - this.y * vector.x;
     }
     transform(matrix: Matrix) {
-        let x = this.x * matrix.matrix[0][0] + this.y * matrix.matrix[1][0];
-        let y = this.x * matrix.matrix[0][1] + this.y * matrix.matrix[1][1];
+        let x = this.x * matrix.matrix[0][0] + this.y * matrix.matrix[0][1];
+        let y = this.x * matrix.matrix[1][0] + this.y * matrix.matrix[1][1];
         return new Vector(x, y);
     }
-    draw(){
-        Vector.p5.line(0,0,this.x,this.y);
+    draw(p5:P5CanvasInstance){
+      p5.stroke(this.color);
+      p5.line(0,0,this.x,this.y);
     }
   }
 

@@ -1,3 +1,4 @@
+import { P5CanvasInstance } from "@p5-wrapper/react";
 import { Drawable } from "./Drawable.ts";
 import { Point } from "./Point.ts";
 import { Vector } from "./Vector.ts";
@@ -12,9 +13,9 @@ class Line extends Drawable {
       this.endy = endy;
       this.color = color;
     }
-    draw() {
-      Line.p5.stroke(this.color);
-      Line.p5.line(this.startx, this.starty, this.endx, this.endy);
+    draw(p5:P5CanvasInstance) {
+      p5.stroke(this.color);
+      p5.line(this.startx, this.starty, this.endx, this.endy);
     }
     static fromPointAndAngle(centrePoint: Point, angleInDegrees: number,length:number,color:number=255) {
       let radians = angleInDegrees * (Math.PI / 180);
